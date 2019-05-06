@@ -9,8 +9,28 @@ import { LectureEditComponent } from './lecture/lecture-edit/lecture-edit.compon
 import { SpeakerComponent } from './speaker/speaker.component';
 import { SpeakerDetailComponent } from './speaker/speaker-detail/speaker-detail.component';
 import { SpeakerEditComponent } from './speaker/speaker-edit/speaker-edit.component';
+import { ThfPageBlockedUserComponent, ThfPageChangePasswordComponent } from '@totvs/thf-templates';
 
 const routes: Routes = [
+
+  {
+    path: 'access-denied',
+    component: ThfPageBlockedUserComponent,
+    data: {
+      contactEmail: 'user@totvs.com.br',
+      contactPhone: '0800 709 8100',
+      reason: 'exceededAttempts',
+      urlBack: '/login'
+    }
+  },
+  {
+    path: 'new-password',
+    component: ThfPageChangePasswordComponent,
+    data: {
+      serviceApi: 'http://localhost:8080/conference-api/api/v1/auth/new-password',
+      hideCurrentPassword: true
+    }
+  },
   {
     path: 'login',
     loadChildren: 'app/login/login.module#LoginModule'
@@ -45,6 +65,7 @@ const routes: Routes = [
       { path: '**', redirectTo: '/home', pathMatch: 'full'}
     ]
   }
+
 ];
 
 @NgModule({

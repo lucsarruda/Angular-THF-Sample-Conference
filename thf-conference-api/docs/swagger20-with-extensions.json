@@ -1340,24 +1340,30 @@
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
+          "name" : "Authorization",
+          "in" : "header",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "Basic KGFkbWluOmFkbWluKQ=="
+        }, {
           "name" : "body",
           "in" : "body",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/userLogin"
+            "$ref" : "#/definitions/loginForm"
           }
         } ],
         "responses" : {
           "200" : {
             "description" : "Status 200 - OK",
             "schema" : {
-              "$ref" : "#/definitions/user"
+              "$ref" : "#/definitions/loginSuccess"
             }
           },
           "400" : {
             "description" : "Status 400 - Bad Request",
             "schema" : {
-              "$ref" : "#/definitions/errorResponse"
+              "$ref" : "#/definitions/loginError"
             }
           }
         }
@@ -1389,6 +1395,61 @@
             "schema" : {
               "$ref" : "#/definitions/errorResponse"
             }
+          }
+        }
+      },
+      "x-restlet" : {
+        "section" : "Auth"
+      }
+    },
+    "/auth/recovery" : {
+      "post" : {
+        "tags" : [ "Auth" ],
+        "summary" : "Endpoint for password recovery",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/passwordRecovery"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Status 204"
+          },
+          "404" : {
+            "description" : "Invalid email",
+            "schema" : {
+              "type" : "object"
+            }
+          }
+        }
+      },
+      "x-restlet" : {
+        "section" : "Auth"
+      }
+    },
+    "/auth/new-password" : {
+      "post" : {
+        "tags" : [ "Auth" ],
+        "summary" : "Endpoint para cadastro de nova senha",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/new_password"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Status 204"
+          },
+          "401" : {
+            "description" : "Status 401"
           }
         }
       },
@@ -1853,6 +1914,115 @@
       },
       "x-restlet" : {
         "section" : "Users"
+      }
+    },
+    "loginForm" : {
+      "type" : "object",
+      "required" : [ "rememberUser" ],
+      "properties" : {
+        "rememberUser" : {
+          "type" : "boolean"
+        }
+      },
+      "x-restlet" : {
+        "section" : "Auth"
+      }
+    },
+    "loginSuccess" : {
+      "type" : "object",
+      "required" : [ "name", "user" ],
+      "properties" : {
+        "user" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        }
+      },
+      "x-restlet" : {
+        "section" : "Auth"
+      }
+    },
+    "loginError" : {
+      "type" : "object",
+      "required" : [ "blockedUrl", "code", "detailedMessage", "loginWarnings", "maxAttemptsRemaining", "message", "passwordWarnings" ],
+      "properties" : {
+        "code" : {
+          "type" : "string"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "detailedMessage" : {
+          "type" : "string"
+        },
+        "maxAttemptsRemaining" : {
+          "type" : "integer"
+        },
+        "loginWarnings" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "passwordWarnings" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "blockedUrl" : {
+          "type" : "string"
+        }
+      },
+      "x-restlet" : {
+        "section" : "Auth"
+      }
+    },
+    "passwordRecovery" : {
+      "type" : "object",
+      "properties" : {
+        "email" : {
+          "type" : "string"
+        },
+        "retry" : {
+          "type" : "integer"
+        }
+      },
+      "x-restlet" : {
+        "section" : "Auth"
+      }
+    },
+    "totvs_messages" : {
+      "type" : "array",
+      "items" : {
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "type" : "string"
+          },
+          "code" : {
+            "type" : "string"
+          },
+          "detail" : {
+            "type" : "string"
+          }
+        }
+      },
+      "x-restlet" : {
+        "section" : "Auth"
+      }
+    },
+    "new_password" : {
+      "type" : "object",
+      "required" : [ "newPassword" ],
+      "properties" : {
+        "newPassword" : {
+          "type" : "string"
+        }
+      },
+      "x-restlet" : {
+        "section" : "Auth"
       }
     }
   },

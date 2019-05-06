@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { ThfModule } from '@totvs/thf-ui';
 import { ThfStorageModule } from '@totvs/thf-storage';
+import { ThfTemplatesModule } from '@totvs/thf-templates';
 
 import { AuthGuardService } from '../auth/auth-guard.service';
 import { GenericService } from './../generic/service/generic.service';
@@ -24,9 +25,9 @@ import { GenericService } from './../generic/service/generic.service';
   exports: [
     CommonModule,
     FormsModule,
-
     ThfModule,
-    ThfStorageModule
+    ThfStorageModule,
+    ThfTemplatesModule
   ],
   providers: [
     AuthGuardService,

@@ -25,9 +25,8 @@ export class HomeComponent {
   constructor(private router: Router, private storage: ThfStorageService) { }
 
   logout(): void {
-    this.storage.remove('isLoggedIn').then(() => {
-      this.router.navigate(['/login']);
-    });
+    sessionStorage.removeItem('THF_USER_LOGIN');
+    this.router.navigate(['/login']);
   }
 
 }
